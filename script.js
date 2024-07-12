@@ -108,7 +108,7 @@ function playGame(play_for_x_times) {
 
 function Main() {
   console.log("Welcome to the game!");
-  playGame(2);
+  playGame(5);
 }
 
 Main();
