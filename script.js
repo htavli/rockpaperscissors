@@ -1,12 +1,33 @@
 let options = ["rock", "paper", "scissors"];
 
-function clear_input(input) {
+let humanScore = 0;
+let computerScore = 0;
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    switch (button.id) {
+      case "rockButton":
+        playGame(0);
+        break;
+      case "paperButton":
+        playGame(1);
+        break;
+      case "scissorsButton":
+        playGame(2);
+        break;
+    }
+  });
+});
+
+/*function clear_input(input) {
   let res = "";
   for (let i = 0; i < input.length; i++) {
     res += input[i].toLowerCase();
   }
   return res;
-}
+}*/
 
 function getComputerChoice() {
   let choice = Math.random() * 3;
@@ -15,7 +36,7 @@ function getComputerChoice() {
   return choice_index;
 }
 
-function getHumanChoice() {
+/*function getHumanChoice() {
   let choice = "";
   while (true) {
     choice = clear_input(
@@ -36,7 +57,7 @@ function getHumanChoice() {
       continue;
     }
   }
-}
+}*/
 
 function decideWinner(humanChoice, computerChoice) {
   switch (humanChoice - computerChoice) {
@@ -60,40 +81,33 @@ function endGame(winner, loser) {
   }
 }
 
-function playGame(play_for_x_times) {
-  let humanScore = 0;
-  let computerScore = 0;
-
+function playGame(humanChoice) {
   let computerChoice;
-  let humanChoice;
 
   let winner;
 
-  for (let i = 0; i < play_for_x_times; i++) {
-    computerChoice = getComputerChoice();
-    humanChoice = getHumanChoice();
+  computerChoice = getComputerChoice();
 
-    winner = decideWinner(humanChoice, computerChoice);
+  winner = decideWinner(humanChoice, computerChoice);
 
-    switch (winner) {
-      case "draw":
-        console.log(
-          `It's a draw! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
-        );
-        break;
-      case "player":
-        console.log(
-          `Player wins! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
-        );
-        humanScore++;
-        break;
-      case "computer":
-        console.log(
-          `The computer wins! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
-        );
-        computerScore++;
-        break;
-    }
+  switch (winner) {
+    case "draw":
+      addText(
+        `It's a draw! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
+      );
+      break;
+    case "player":
+      humanScore++;
+      addText(
+        `${humanScore} - ${computerScore} Player wins! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
+      );
+      break;
+    case "computer":
+      computerScore++;
+      addText(
+        `${humanScore} - ${computerScore} The computer wins! Your choice: ${options[humanChoice]} Computer's choice: ${options[computerChoice]}`
+      );
+      break;
   }
 
   console.log(`The score is: Player ${humanScore} - ${computerScore} Computer`);
@@ -106,9 +120,17 @@ function playGame(play_for_x_times) {
   }
 }
 
+const textContainer = document.querySelector("#textContainer");
+
+function addText(arr) {
+  const text = document.createElement("p");
+  text.textContent = arr;
+  textContainer.appendChild(text);
+}
+
 function Main() {
   console.log("Welcome to the game!");
   playGame(5);
 }
 
-Main();
+//Main();
